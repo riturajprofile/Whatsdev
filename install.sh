@@ -76,12 +76,7 @@ confirm() {
 # Check if already installed
 check_existing() {
     if [[ -f "$INSTALL_DIR/WhatsDev.AppImage" ]]; then
-        log_warn "WhatsDev is already installed"
-        if confirm "Reinstall?" "n"; then
-            return 0
-        else
-            exit 0
-        fi
+        log_warn "WhatsDev is already installed, reinstalling..."
     fi
 }
 
@@ -113,30 +108,25 @@ install_fuse() {
     fi
     
     log_warn "FUSE not found (required for AppImage)"
+    log_info "Installing FUSE..."
     
-    if confirm "Install FUSE automatically?" "y"; then
-        log_info "Installing FUSE..."
-        
-        if command -v apt &> /dev/null; then
-            sudo apt update -qq && sudo apt install -y libfuse2 || sudo apt install -y fuse
-        elif command -v dnf &> /dev/null; then
-            sudo dnf install -y fuse-libs fuse
-        elif command -v pacman &> /dev/null; then
-            sudo pacman -Sy --noconfirm fuse2
-        elif command -v zypper &> /dev/null; then
-            sudo zypper install -y fuse libfuse2
-        elif command -v apk &> /dev/null; then
-            sudo apk add fuse
-        else
-            log_error "Could not detect package manager"
-            log_info "Please install fuse/libfuse2 manually and run installer again"
-            exit 1
-        fi
-        
-        log_success "FUSE installed"
+    if command -v apt &> /dev/null; then
+        sudo apt update -qq && sudo apt install -y libfuse2 || sudo apt install -y fuse
+    elif command -v dnf &> /dev/null; then
+        sudo dnf install -y fuse-libs fuse
+    elif command -v pacman &> /dev/null; then
+        sudo pacman -Sy --noconfirm fuse2
+    elif command -v zypper &> /dev/null; then
+        sudo zypper install -y fuse libfuse2
+    elif command -v apk &> /dev/null; then
+        sudo apk add fuse
     else
-        log_warn "AppImage may not work without FUSE"
+        log_error "Could not detect package manager"
+        log_info "Please install fuse/libfuse2 manually and run installer again"
+        exit 1
     fi
+    
+    log_success "FUSE installed"
 }
 
 # Download AppImage
@@ -220,7 +210,7 @@ create_desktop_entry() {
 Name=WhatsDev
 Comment=WhatsApp Web Desktop App
 GenericName=WhatsApp Client
-Exec=$INSTALL_DIR/WhatsDev.AppImage %U
+Exec=$INSTALL_DIR/WhatsDev.AppImage --no-sandbox %U
 Icon=$INSTALL_DIR/icon.png
 Type=Application
 Categories=Network;InstantMessaging;Chat;
@@ -249,7 +239,7 @@ create_autostart() {
 [Desktop Entry]
 Name=WhatsDev
 Comment=WhatsApp Web Desktop App
-Exec=$INSTALL_DIR/WhatsDev.AppImage --hidden
+Exec=$INSTALL_DIR/WhatsDev.AppImage --no-sandbox --hidden
 Icon=$INSTALL_DIR/icon.png
 Type=Application
 X-GNOME-Autostart-enabled=true
@@ -302,13 +292,8 @@ main() {
     
     echo ""
     
-    if confirm "Create desktop launcher?" "y"; then
-        create_desktop_entry
-    fi
-    
-    if confirm "Start on login?" "n"; then
-        create_autostart
-    fi
+    # Always create desktop launcher
+    create_desktop_entry
     
     echo ""
     echo -e "${GREEN}════════════════════════════════════════════════════════════════${NC}"
@@ -319,13 +304,11 @@ main() {
     echo -e "  ${BOLD}Or:${NC}  Search 'WhatsDev' in app menu"
     echo ""
     
-    if confirm "Launch WhatsDev now?" "y"; then
-        log_step "Starting WhatsDev..."
-        nohup "$INSTALL_DIR/WhatsDev.AppImage" > /dev/null 2>&1 &
-        disown 2>/dev/null || true
-        sleep 1
-        log_success "WhatsDev is running!"
-    fi
+    log_step "Starting WhatsDev..."
+    nohup "$INSTALL_DIR/WhatsDev.AppImage" --no-sandbox > /dev/null 2>&1 &
+    disown 2>/dev/null || true
+    sleep 1
+    log_success "WhatsDev is running!"
     
     echo ""
     log_success "Enjoy WhatsDev! 🚀"

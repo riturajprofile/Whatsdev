@@ -43,10 +43,10 @@ Or using wget:
 wget -qO- https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash
 ```
 
-The installer will ask you:
-- Create desktop launcher? [Y/n]
-- Start on login? [y/N]
-- Launch WhatsDev now? [Y/n]
+The installer will automatically:
+- Download the latest AppImage
+- Create a desktop launcher
+- Launch WhatsDev
 
 ### Uninstall
 
@@ -152,6 +152,14 @@ This is fixed in the latest version. Re-run the build script to get the updated 
 ### GPU/VSync errors
 
 These are harmless warnings and can be ignored. They don't affect functionality.
+
+### SUID sandbox error
+
+If you see an error like `The SUID sandbox helper binary was found, but is not configured correctly`, run with the `--no-sandbox` flag:
+
+```bash
+./WhatsDev.AppImage --no-sandbox
+```
 
 ## Contributing
 
