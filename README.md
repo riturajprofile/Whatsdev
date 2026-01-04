@@ -11,6 +11,12 @@
 </p>
 
 <p align="center">
+  <a href="https://snapcraft.io/whatsdev">
+    <img alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" />
+  </a>
+</p>
+
+<p align="center">
   <a href="#features">Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#download">Download</a> •
@@ -22,6 +28,7 @@
 ## Features
 
 ✅ **Portable AppImage** - No installation required, runs on any Linux distro  
+✅ **Snap Package** - Available on Snap Store for easy installation  
 ✅ **System Tray** - Minimize to tray, click to restore  
 ✅ **Unread Counter** - Shows unread message count in tray tooltip  
 ✅ **Clean UI** - No menu bar clutter, just WhatsApp  
@@ -32,7 +39,15 @@
 
 ## Installation
 
-### One-Line Install
+### Install from Snap Store (Recommended)
+
+```bash
+sudo snap install whatsdev
+```
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/whatsdev)
+
+### One-Line Install (AppImage)
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash
@@ -89,8 +104,8 @@ curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install
 
 | Format | Download | Install Command |
 |--------|----------|-----------------|
+| **Snap** | [![Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/whatsdev) | `sudo snap install whatsdev` |
 | **AppImage** | [Download](https://github.com/riturajprofile/whatsdev/releases/latest/download/WhatsDev.AppImage) | `chmod +x WhatsDev.AppImage && ./WhatsDev.AppImage` |
-| **Snap** | Coming Soon | `sudo snap install whatsdev` |
 | **Flatpak** | Coming Soon | `flatpak install whatsdev` |
 
 ### Pre-built AppImage
