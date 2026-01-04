@@ -32,7 +32,7 @@
 
 ## Installation
 
-### One-Line Install (Recommended)
+### One-Line Install
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash
@@ -44,7 +44,16 @@ Or using wget:
 wget -qO- https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash
 ```
 
-> **No build required!** Downloads pre-built AppImage directly (~100MB)
+The installer will ask you:
+- Create desktop launcher? [Y/n]
+- Start on login? [y/N]
+- Launch WhatsDev now? [Y/n]
+
+### Uninstall
+
+```bash
+curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash -s uninstall
+```
 
 ### Supported Distributions
 
@@ -57,9 +66,7 @@ wget -qO- https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install
 | Manjaro | ✅ Supported |
 | openSUSE | ✅ Supported |
 | Pop!_OS | ✅ Supported |
-| Elementary OS | ✅ Supported |
-| Zorin OS | ✅ Supported |
-| Other (with apt/dnf/pacman) | ✅ Supported |
+| Other | ✅ Supported |
 
 ## Download
 
