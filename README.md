@@ -14,7 +14,6 @@
   <a href="#features">Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#download">Download</a> •
-  <a href="#build-from-source">Build</a> •
   <a href="#license">License</a>
 </p>
 
@@ -86,18 +85,6 @@ chmod +x WhatsDev.AppImage
 ```
 
 Or download from [Releases](https://github.com/riturajprofile/whatsdev/releases).
-
-## Build from Source (Optional)
-
-Only needed if you want to modify the app:
-
-```bash
-# Requirements: Node.js 16+
-git clone https://github.com/riturajprofile/whatsdev.git
-cd whatsdev
-npm install
-npm run build
-```
 
 ## Usage
 
