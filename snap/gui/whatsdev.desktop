@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=WhatsDev
+Comment=WhatsApp Web Desktop App
+GenericName=WhatsApp Client
+Exec=whatsdev %U
+Icon=${SNAP}/usr/share/icons/hicolor/256x256/apps/whatsdev.png
+Type=Application
+Categories=Network;InstantMessaging;Chat;
+StartupWMClass=WhatsDev
+Terminal=false
+Keywords=whatsapp;chat;messaging;web;

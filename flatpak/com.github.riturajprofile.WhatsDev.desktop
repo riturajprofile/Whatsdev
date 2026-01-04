@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=WhatsDev
+Comment=WhatsApp Web Desktop App
+GenericName=WhatsApp Client
+Exec=whatsdev %U
+Icon=com.github.riturajprofile.WhatsDev
+Type=Application
+Categories=Network;InstantMessaging;Chat;
+StartupWMClass=WhatsDev
+Terminal=false
+Keywords=whatsapp;chat;messaging;web;

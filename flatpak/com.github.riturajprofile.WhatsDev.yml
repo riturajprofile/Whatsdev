@@ -1,0 +1,75 @@
+app-id: com.github.riturajprofile.WhatsDev
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+command: whatsdev
+finish-args:
+  # X11 + Wayland
+  - --socket=x11
+  - --socket=wayland
+  - --share=ipc
+  # GPU acceleration
+  - --device=dri
+  # Network access
+  - --share=network
+  # Audio
+  - --socket=pulseaudio
+  # Camera/Microphone for calls
+  - --device=all
+  # Notifications
+  - --talk-name=org.freedesktop.Notifications
+  # System tray
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.indicator.application
+  # File access for downloads
+  - --filesystem=xdg-download
+  - --filesystem=xdg-documents
+  # For Electron
+  - --env=ELECTRON_TRASH=gio
+  - --env=ELECTRON_OZONE_PLATFORM_HINT=auto
+
+modules:
+  - name: zypak
+    sources:
+      - type: git
+        url: https://github.com/nickvisionapps/Tube-Converter
+        tag: 2024.4.0
+    buildsystem: simple
+    build-commands:
+      - echo "Zypak placeholder"
+
+  - name: whatsdev
+    buildsystem: simple
+    sources:
+      - type: file
+        url: https://github.com/riturajprofile/whatsdev/releases/latest/download/WhatsDev.AppImage
+        sha256: PLACEHOLDER_SHA256
+        dest-filename: WhatsDev.AppImage
+      - type: file
+        path: com.github.riturajprofile.WhatsDev.desktop
+      - type: file
+        path: com.github.riturajprofile.WhatsDev.metainfo.xml
+      - type: file
+        path: icon.png
+    build-commands:
+      # Extract AppImage
+      - chmod +x WhatsDev.AppImage
+      - ./WhatsDev.AppImage --appimage-extract
+      # Install files
+      - mkdir -p /app/bin
+      - mkdir -p /app/lib/whatsdev
+      - cp -r squashfs-root/* /app/lib/whatsdev/
+      - chmod -R 755 /app/lib/whatsdev
+      # Create wrapper script
+      - |
+        cat > /app/bin/whatsdev << 'EOF'
+        #!/bin/bash
+        export ELECTRON_OZONE_PLATFORM_HINT=auto
+        exec /app/lib/whatsdev/whatsdev --no-sandbox "$@"
+        EOF
+      - chmod +x /app/bin/whatsdev
+      # Install desktop file and icon
+      - install -Dm644 com.github.riturajprofile.WhatsDev.desktop /app/share/applications/com.github.riturajprofile.WhatsDev.desktop
+      - install -Dm644 icon.png /app/share/icons/hicolor/256x256/apps/com.github.riturajprofile.WhatsDev.png
+      - install -Dm644 com.github.riturajprofile.WhatsDev.metainfo.xml /app/share/metainfo/com.github.riturajprofile.WhatsDev.metainfo.xml

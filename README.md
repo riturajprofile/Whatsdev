@@ -85,6 +85,14 @@ curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install
 
 ## Download
 
+### Pre-built Packages
+
+| Format | Download | Install Command |
+|--------|----------|-----------------|
+| **AppImage** | [Download](https://github.com/riturajprofile/whatsdev/releases/latest/download/WhatsDev.AppImage) | `chmod +x WhatsDev.AppImage && ./WhatsDev.AppImage` |
+| **Snap** | Coming Soon | `sudo snap install whatsdev` |
+| **Flatpak** | Coming Soon | `flatpak install whatsdev` |
+
 ### Pre-built AppImage
 
 Download the latest AppImage directly:
@@ -184,6 +192,25 @@ Contributions are welcome! Feel free to:
 1. Fork the repository
 2. Create a feature branch
 3. Submit a pull request
+
+### Building Packages
+
+To build Snap and Flatpak packages locally:
+
+```bash
+# Build all packages (Snap + Flatpak)
+./build-packages.sh all
+
+# Build only Snap
+./build-packages.sh snap
+
+# Build only Flatpak
+./build-packages.sh flatpak
+```
+
+**Requirements:**
+- Snap: `sudo snap install snapcraft --classic`
+- Flatpak: `sudo apt install flatpak-builder`
 
 ## License
 
