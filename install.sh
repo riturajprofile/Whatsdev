@@ -210,6 +210,51 @@ download_icon() {
     fi
 }
 
+# Performance mode flags
+NORMAL_FLAGS="--no-sandbox"
+LOW_RESOURCE_FLAGS="--no-sandbox --disable-gpu-sandbox --disable-software-rasterizer --disable-dev-shm-usage --disable-background-networking --disable-default-apps --disable-extensions --disable-sync --disable-translate --no-first-run --no-default-browser-check --single-process --js-flags=--max-old-space-size=256 --disable-features=TranslateUI --disable-ipc-flooding-protection --disable-renderer-backgrounding --memory-pressure-off"
+
+# Selected flags (will be set by user choice)
+SELECTED_FLAGS="$NORMAL_FLAGS"
+
+# Ask user for performance mode
+select_performance_mode() {
+    echo ""
+    echo -e "${CYAN}╔════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}║              Select Performance Mode                           ║${NC}"
+    echo -e "${CYAN}╠════════════════════════════════════════════════════════════════╣${NC}"
+    echo -e "${CYAN}║${NC}  ${BOLD}1)${NC} ${GREEN}Normal Mode${NC}                                                ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}     - Full features and best experience                       ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}     - Higher RAM/CPU usage (~300-500MB)                        ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}                                                                ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}  ${BOLD}2)${NC} ${YELLOW}Low Resource Mode${NC}                                          ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}     - Optimized for low RAM/CPU usage (~150-250MB)            ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}     - Some features disabled for better performance           ${CYAN}║${NC}"
+    echo -e "${CYAN}║${NC}     - Recommended for older PCs or limited resources          ${CYAN}║${NC}"
+    echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    
+    while true; do
+        read -p "Enter your choice [1/2] (default: 1): " choice
+        case "$choice" in
+            1|"")
+                SELECTED_FLAGS="$NORMAL_FLAGS"
+                log_success "Normal Mode selected"
+                break
+                ;;
+            2)
+                SELECTED_FLAGS="$LOW_RESOURCE_FLAGS"
+                log_success "Low Resource Mode selected"
+                break
+                ;;
+            *)
+                log_warn "Invalid choice. Please enter 1 or 2."
+                ;;
+        esac
+    done
+    echo ""
+}
+
 # Create desktop entry
 create_desktop_entry() {
     log_step "Creating desktop launcher..."
@@ -220,7 +265,7 @@ create_desktop_entry() {
 Name=WhatsDev
 Comment=WhatsApp Web Desktop App
 GenericName=WhatsApp Client
-Exec=$INSTALL_DIR/WhatsDev.AppImage --no-sandbox %U
+Exec=$INSTALL_DIR/WhatsDev.AppImage $SELECTED_FLAGS %U
 Icon=$INSTALL_DIR/icon.png
 Type=Application
 Categories=Network;InstantMessaging;Chat;
@@ -249,7 +294,7 @@ create_autostart() {
 [Desktop Entry]
 Name=WhatsDev
 Comment=WhatsApp Web Desktop App
-Exec=$INSTALL_DIR/WhatsDev.AppImage --no-sandbox --hidden
+Exec=$INSTALL_DIR/WhatsDev.AppImage $SELECTED_FLAGS --hidden
 Icon=$INSTALL_DIR/icon.png
 Type=Application
 X-GNOME-Autostart-enabled=true
@@ -300,7 +345,8 @@ main() {
     download_appimage
     download_icon
     
-    echo ""
+    # Ask user for performance mode
+    select_performance_mode
     
     # Always create desktop launcher and autostart
     create_desktop_entry
@@ -316,7 +362,7 @@ main() {
     echo ""
     
     log_step "Starting WhatsDev..."
-    nohup "$INSTALL_DIR/WhatsDev.AppImage" --no-sandbox > /dev/null 2>&1 &
+    nohup "$INSTALL_DIR/WhatsDev.AppImage" $SELECTED_FLAGS > /dev/null 2>&1 &
     disown 2>/dev/null || true
     sleep 1
     log_success "WhatsDev is running!"

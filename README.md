@@ -28,6 +28,7 @@
 ✅ **Single Instance** - Prevents multiple windows  
 ✅ **Modern Chrome UA** - Bypasses browser compatibility checks  
 ✅ **Lightweight** - ~180MB AppImage with Electron  
+✅ **Performance Modes** - Choose between Normal or Low Resource mode during install  
 
 ## Installation
 
@@ -48,6 +49,20 @@ The installer will automatically:
 - Create a desktop launcher
 - Enable autostart on login
 - Launch WhatsDev
+
+### Performance Modes
+
+During installation, you can choose between two performance modes:
+
+| Mode | RAM Usage | Description |
+|------|-----------|-------------|
+| **Normal Mode** | ~300-500MB | Full features, best experience |
+| **Low Resource Mode** | ~150-250MB | Optimized for older PCs, some features disabled |
+
+**Low Resource Mode** is recommended for:
+- Older computers with limited RAM
+- Systems running many applications
+- Lightweight Linux distributions
 
 ### Uninstall
 
