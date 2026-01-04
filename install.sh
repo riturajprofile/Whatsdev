@@ -292,8 +292,9 @@ main() {
     
     echo ""
     
-    # Always create desktop launcher
+    # Always create desktop launcher and autostart
     create_desktop_entry
+    create_autostart
     
     echo ""
     echo -e "${GREEN}════════════════════════════════════════════════════════════════${NC}"

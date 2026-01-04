@@ -46,6 +46,7 @@ wget -qO- https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install
 The installer will automatically:
 - Download the latest AppImage
 - Create a desktop launcher
+- Enable autostart on login
 - Launch WhatsDev
 
 ### Uninstall
