@@ -86,16 +86,6 @@ chmod +x WhatsDev.AppImage
 
 Or download from [Releases](https://github.com/riturajprofile/whatsdev/releases).
 
-## Usage
-
-### Running
-
-```bash
-# From terminal
-~/Applications/WhatsDev.AppImage
-
-# Or search "WhatsDev" in your application menu
-```
 
 ### System Tray
 
