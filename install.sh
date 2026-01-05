@@ -235,7 +235,7 @@ select_performance_mode() {
     echo ""
     
     while true; do
-        read -p "Enter your choice [1/2] (default: 1): " choice
+        read -p "Enter your choice [1/2] (default: 1): " choice </dev/tty
         case "$choice" in
             1|"")
                 SELECTED_FLAGS="$NORMAL_FLAGS"
