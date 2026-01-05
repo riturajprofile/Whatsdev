@@ -5,22 +5,24 @@
 # Downloads and installs pre-built AppImage - No build required!
 # 
 # Install:
-#   bash <(curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh)
+#   curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash
 #   
 # Uninstall:
-#   bash <(curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh) uninstall
+#   curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash -s uninstall
 # ============================================================
 
 set -e
 
-# If running from pipe, download and re-execute to allow user input
-if [ ! -t 0 ]; then
+# If running from pipe and not already re-executed, download and re-execute
+if [ ! -t 0 ] && [ -z "$WHATSDEV_REEXEC" ]; then
+    export WHATSDEV_REEXEC=1
     TEMP_SCRIPT=$(mktemp)
     curl -sSL "https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh" -o "$TEMP_SCRIPT"
     chmod +x "$TEMP_SCRIPT"
-    exec bash "$TEMP_SCRIPT" "$@"
+    bash "$TEMP_SCRIPT" "$@"
+    EXIT_CODE=$?
     rm -f "$TEMP_SCRIPT"
-    exit
+    exit $EXIT_CODE
 fi
 
 APP_NAME="WhatsDev"
