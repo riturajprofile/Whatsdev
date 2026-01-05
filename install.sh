@@ -14,7 +14,7 @@
 set -e
 
 APP_NAME="WhatsDev"
-VERSION="1.0.0"
+VERSION="1.0.1"
 INSTALL_DIR="$HOME/.local/whatsdev"
 GITHUB_REPO="riturajprofile/whatsdev"
 APPIMAGE_URL="https://github.com/$GITHUB_REPO/releases/latest/download/WhatsDev.AppImage"

@@ -29,8 +29,10 @@
 
 ✅ **Portable AppImage** - No installation required, runs on any Linux distro  
 ✅ **Snap Package** - Available on Snap Store for easy installation  
-✅ **System Tray** - Minimize to tray, click to restore  
-✅ **Unread Counter** - Shows unread message count in tray tooltip  
+✅ **System Tray Integration** - Minimize to tray, click to restore  
+✅ **Unread Badge** - Shows unread message count on tray icon  
+✅ **Smart Notifications** - Desktop notifications with sound for new messages  
+✅ **Message Preview** - Hover over tray icon to see unread message summary  
 ✅ **Clean UI** - No menu bar clutter, just WhatsApp  
 ✅ **Single Instance** - Prevents multiple windows  
 ✅ **Modern Chrome UA** - Bypasses browser compatibility checks  
@@ -39,15 +41,14 @@
 
 ## Installation
 
-### Install from Snap Store (Recommended)
-
+### Install from Snap Store 
 ```bash
 sudo snap install whatsdev
 ```
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/whatsdev)
 
-### One-Line Install (AppImage)
+### One-Line Install (AppImage) (Recommended)
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash
@@ -133,6 +134,22 @@ Or download from [Releases](https://github.com/riturajprofile/whatsdev/releases)
   - Show WhatsDev
   - Hide WhatsDev
   - Quit WhatsDev
+- **Hover**: View unread message summary with sender names and message previews
+
+### Notifications
+
+WhatsDev provides native desktop notifications:
+- 🔔 **Sound alerts** for new messages
+- 👤 **Sender name** displayed in notification title
+- 💬 **Message preview** shown in notification body
+- 🖱️ **Click to focus** - Click notification to open WhatsDev
+- 🎯 **Smart triggers** - Only notifies when window is unfocused
+
+### Unread Badge
+
+- Shows unread message count directly on tray icon
+- Updates in real-time as messages arrive
+- Displays up to 99+ for large counts
 
 ### Keyboard Shortcuts
 
