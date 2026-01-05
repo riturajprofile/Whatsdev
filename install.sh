@@ -60,9 +60,9 @@ confirm() {
     local default="$2"
     
     if [[ "$default" == "y" ]]; then
-        read -p "$prompt [Y/n] " -n 1 -r
+        read -p "$prompt [Y/n] " -n 1 -r </dev/tty
     else
-        read -p "$prompt [y/N] " -n 1 -r
+        read -p "$prompt [y/N] " -n 1 -r </dev/tty
     fi
     echo
     
@@ -232,6 +232,8 @@ select_performance_mode() {
     echo -e "${CYAN}║${NC}     - Some features disabled for better performance           ${CYAN}║${NC}"
     echo -e "${CYAN}║${NC}     - Recommended for older PCs or limited resources          ${CYAN}║${NC}"
     echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    echo -e "${BOLD}${YELLOW}⏳ Waiting for your input...${NC}"
     echo ""
     
     while true; do
