@@ -137,18 +137,25 @@ install_fuse() {
 download_appimage() {
     mkdir -p "$INSTALL_DIR"
     
-    # Check if AppImage already exists and is valid
+    local NEED_DOWNLOAD=true
+    
+    # Check if AppImage already exists
     if [[ -f "$INSTALL_DIR/WhatsDev.AppImage" ]]; then
         local SIZE=$(stat -c%s "$INSTALL_DIR/WhatsDev.AppImage" 2>/dev/null || stat -f%z "$INSTALL_DIR/WhatsDev.AppImage" 2>/dev/null)
-        if [[ "$SIZE" -gt 1000000 ]]; then
-            log_success "Using existing AppImage at $INSTALL_DIR/WhatsDev.AppImage ($(numfmt --to=iec $SIZE 2>/dev/null || echo "${SIZE} bytes"))"
+        if [[ "$SIZE" -gt 100000000 ]]; then
+            # Size > 100MB means it's likely latest version
+            log_success "Latest AppImage already installed ($(numfmt --to=iec $SIZE 2>/dev/null || echo "${SIZE} bytes"))"
             chmod +x "$INSTALL_DIR/WhatsDev.AppImage"
-            return 0
+            NEED_DOWNLOAD=false
+        else
+            log_warn "Older version detected ($(numfmt --to=iec $SIZE 2>/dev/null || echo "${SIZE} bytes")), downloading latest..."
+            rm -f "$INSTALL_DIR/WhatsDev.AppImage"
         fi
     fi
     
-    log_step "Downloading WhatsDev AppImage..."
-    echo ""
+    if [[ "$NEED_DOWNLOAD" == "true" ]]; then
+        log_step "Downloading WhatsDev AppImage v$VERSION..."
+        echo ""
     
     local TEMP_FILE="$INSTALL_DIR/WhatsDev.AppImage.tmp"
     
@@ -195,6 +202,7 @@ download_appimage() {
     
     echo ""
     log_success "Downloaded to: $INSTALL_DIR/WhatsDev.AppImage ($(numfmt --to=iec $SIZE 2>/dev/null || echo "${SIZE} bytes"))"
+    fi
 }
 
 # Download icon

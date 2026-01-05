@@ -50,30 +50,35 @@ sudo snap install whatsdev
 
 ### One-Line Install (AppImage) (Recommended)
 
+**Normal Mode (default):**
 ```bash
 curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash
 ```
 
-Or using wget:
+**Low Resource Mode (for older PCs):**
+```bash
+curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash -s 2
+```
 
+Or using wget:
 ```bash
 wget -qO- https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash
 ```
 
 The installer will automatically:
-- Download the latest AppImage
+- Download the latest AppImage (updates old versions)
 - Create a desktop launcher
 - Enable autostart on login
 - Launch WhatsDev
 
 ### Performance Modes
 
-During installation, you can choose between two performance modes:
+Choose your mode during installation:
 
-| Mode | RAM Usage | Description |
-|------|-----------|-------------|
-| **Normal Mode** | ~300-500MB | Full features, best experience |
-| **Low Resource Mode** | ~150-250MB | Optimized for older PCs, some features disabled |
+| Mode | Command | RAM Usage | Description |
+|------|---------|-----------|-------------|
+| **Normal Mode** | `bash` or `bash -s 1` | ~300-500MB | Full features, best experience |
+| **Low Resource Mode** | `bash -s 2` | ~150-250MB | Optimized for older PCs |
 
 **Low Resource Mode** is recommended for:
 - Older computers with limited RAM
