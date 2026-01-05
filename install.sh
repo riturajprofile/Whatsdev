@@ -4,26 +4,18 @@
 # WhatsDev Installer
 # Downloads and installs pre-built AppImage - No build required!
 # 
-# Install:
+# Install (Normal Mode - default):
 #   curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash
+#   curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash -s 1
+#
+# Install (Low Resource Mode):
+#   curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash -s 2
 #   
 # Uninstall:
 #   curl -sSL https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh | bash -s uninstall
 # ============================================================
 
 set -e
-
-# If running from pipe and not already re-executed, download and re-execute
-if [ ! -t 0 ] && [ -z "$WHATSDEV_REEXEC" ]; then
-    export WHATSDEV_REEXEC=1
-    TEMP_SCRIPT=$(mktemp)
-    curl -sSL "https://raw.githubusercontent.com/riturajprofile/whatsdev/main/install.sh" -o "$TEMP_SCRIPT"
-    chmod +x "$TEMP_SCRIPT"
-    bash "$TEMP_SCRIPT" "$@"
-    EXIT_CODE=$?
-    rm -f "$TEMP_SCRIPT"
-    exit $EXIT_CODE
-fi
 
 APP_NAME="WhatsDev"
 VERSION="1.0.1"
@@ -226,47 +218,22 @@ download_icon() {
 NORMAL_FLAGS="--no-sandbox"
 LOW_RESOURCE_FLAGS="--no-sandbox --disable-gpu-sandbox --disable-software-rasterizer --disable-dev-shm-usage --disable-background-networking --disable-default-apps --disable-extensions --disable-sync --disable-translate --no-first-run --no-default-browser-check --single-process --js-flags=--max-old-space-size=256 --disable-features=TranslateUI --disable-ipc-flooding-protection --disable-renderer-backgrounding --memory-pressure-off"
 
-# Selected flags (will be set by user choice)
+# Selected flags (will be set by argument)
 SELECTED_FLAGS="$NORMAL_FLAGS"
 
-# Ask user for performance mode
-select_performance_mode() {
-    echo ""
-    echo -e "${CYAN}╔════════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║              Select Performance Mode                           ║${NC}"
-    echo -e "${CYAN}╠════════════════════════════════════════════════════════════════╣${NC}"
-    echo -e "${CYAN}║${NC}  ${BOLD}1)${NC} ${GREEN}Normal Mode${NC}                                                ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}     - Full features and best experience                       ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}     - Higher RAM/CPU usage (~300-500MB)                        ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}                                                                ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}  ${BOLD}2)${NC} ${YELLOW}Low Resource Mode${NC}                                          ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}     - Optimized for low RAM/CPU usage (~150-250MB)            ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}     - Some features disabled for better performance           ${CYAN}║${NC}"
-    echo -e "${CYAN}║${NC}     - Recommended for older PCs or limited resources          ${CYAN}║${NC}"
-    echo -e "${CYAN}╚════════════════════════════════════════════════════════════════╝${NC}"
-    echo ""
-    echo -e "${BOLD}${YELLOW}⏳ Waiting for your input...${NC}"
-    echo ""
-    
-    while true; do
-        read -p "Enter your choice [1/2] (default: 1): " choice
-        case "$choice" in
-            1|"")
-                SELECTED_FLAGS="$NORMAL_FLAGS"
-                log_success "Normal Mode selected"
-                break
-                ;;
-            2)
-                SELECTED_FLAGS="$LOW_RESOURCE_FLAGS"
-                log_success "Low Resource Mode selected"
-                break
-                ;;
-            *)
-                log_warn "Invalid choice. Please enter 1 or 2."
-                ;;
-        esac
-    done
-    echo ""
+# Set performance mode from argument
+set_performance_mode() {
+    local mode="$1"
+    case "$mode" in
+        2)
+            SELECTED_FLAGS="$LOW_RESOURCE_FLAGS"
+            log_success "Low Resource Mode selected"
+            ;;
+        *)
+            SELECTED_FLAGS="$NORMAL_FLAGS"
+            log_success "Normal Mode selected"
+            ;;
+    esac
 }
 
 # Create desktop entry
@@ -359,8 +326,8 @@ main() {
     download_appimage
     download_icon
     
-    # Ask user for performance mode
-    select_performance_mode
+    # Set performance mode from argument (default: 1 = Normal)
+    set_performance_mode "$1"
     
     # Always create desktop launcher and autostart
     create_desktop_entry
