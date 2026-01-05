@@ -13,11 +13,6 @@
 
 set -e
 
-# Redirect stdin from /dev/tty if running in a pipe
-if [ ! -t 0 ]; then
-    exec < /dev/tty
-fi
-
 APP_NAME="WhatsDev"
 VERSION="1.0.1"
 INSTALL_DIR="$HOME/.local/whatsdev"
@@ -65,9 +60,9 @@ confirm() {
     local default="$2"
     
     if [[ "$default" == "y" ]]; then
-        read -p "$prompt [Y/n] " -n 1 -r
+        read -p "$prompt [Y/n] " -n 1 -r REPLY < /dev/tty
     else
-        read -p "$prompt [y/N] " -n 1 -r
+        read -p "$prompt [y/N] " -n 1 -r REPLY < /dev/tty
     fi
     echo
     
@@ -242,7 +237,7 @@ select_performance_mode() {
     echo ""
     
     while true; do
-        read -p "Enter your choice [1/2] (default: 1): " choice
+        read -p "Enter your choice [1/2] (default: 1): " choice < /dev/tty
         case "$choice" in
             1|"")
                 SELECTED_FLAGS="$NORMAL_FLAGS"
